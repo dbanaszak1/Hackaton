@@ -156,11 +156,13 @@ def post_test():
     name = request.form.get('name')
     category = request.form.get('category')
     subcategory = request.form.get('subcategory')
+    description = request.form.get('description')
     level = request.form.get('level')
     tasks = []
 
     response = {
         'name': name,
+        'description': description,
         'category': category,
         'subcategory': subcategory,
         'level': level,
