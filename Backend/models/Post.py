@@ -1,15 +1,14 @@
-import uuid
+from fireo import models
+from fireo.models import Model
 
-from Backend.models.Comment import Comment
-from Backend.models.User import User
+from Backend.models import User, Comment
 
 
-class Post:
-    _id: uuid
-    _title: str
-    _category: str
-    _creator: User
-    _comments: [Comment]
-    _status: str
-    _subcategory: str
-
+class Post(Model):
+    _title: models.TextField()
+    _category: models.TextField()
+    _creator: models.ReferenceField(User)
+    _comments: models.ListField(Comment)
+    _status: models.TextField()
+    _subcategory: models.TextField()
+    _creationDate: models.DateTime()

@@ -1,8 +1,11 @@
-import uuid
+from fireo import models
+from fireo.models import Model
 
-from Backend.models.Task import Task
 
-
-class Test:
-    _id: uuid
-    _tasks: [Task]
+class Test(Model):
+    _name: models.TextField()
+    _category: models.TextField()
+    _subCategory: models.TextField()
+    _level: models.TextField()
+    _tasks: models.ListField()
+    _creationDate: models.DateTime()

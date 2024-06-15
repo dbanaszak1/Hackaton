@@ -1,10 +1,11 @@
-from firebase_admin.auth import UserRecord
+from fireo import models
+from fireo.models import Model
 
 
-class User:
-    _user: UserRecord
-    _name: str
-    _completedTests = []
-    _forumPoints: int = 0
-    _testsPoints: int = 0
-    _isPremium: bool = False
+class User(Model):
+    _userId: models.TextField()
+    _name: models.TextField()
+    _completedTests = models.ListField()
+    _forumPoints: models.NumberField() = 0
+    _testsPoints: models.NumberField() = 0
+    _isPremium: models.BooleanField() = False
