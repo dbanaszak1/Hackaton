@@ -99,7 +99,7 @@ const Planner: React.FC = () => {
 
   return (
     <>
-      <Navbar />
+      <Navbar user=""/>
       <div className="max-w-[1240px] mx-auto p-4">
         <div className="flex my-4 gap-4">
           <div className="w-3/5 p-4 border rounded bg-white">
