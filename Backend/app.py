@@ -107,23 +107,5 @@ def get_test_by_id(id: str):
         return jsonify({"error": "Test does not exist"}), 404
 
 
-@app.route('/forum', methods=['GET'])
-def get_forum_posts():
-    forum_posts = []
-    fetched_forum_posts = post_ref.stream()
-    for forum_post in fetched_forum_posts:
-        forum_posts.append(serialize_document_reference(forum_post))
-    return jsonify({"success": "Forum posts found", "posts": forum_posts}), 200
-
-
-@app.route('/forum/<string:id>', methods=['GET'])
-def get_forum_post_by_id(id: str):
-    forum_post = post_ref.document(id).get()
-    if forum_post.exists:
-        return jsonify({"success": "Post found", "post": serialize_document(forum_post)}), 200
-    else:
-        return jsonify({"error": "Post does not exist"}), 404
-
-
 if __name__ == '__main__':
     app.run(threaded=True)
