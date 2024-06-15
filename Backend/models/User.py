@@ -7,7 +7,7 @@ class User(Model):
     _name: models.TextField()
     _completedTests = models.ListField()
     _forumPoints: models.NumberField() = 0
-    _testsPoints: models.NumberField() = 0
+    _testPoints: models.NumberField() = 0
     _isPremium: models.BooleanField() = False
 
     class Meta:

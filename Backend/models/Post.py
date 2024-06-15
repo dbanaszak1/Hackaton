@@ -1,7 +1,8 @@
 from fireo import models
 from fireo.models import Model
 
-from Backend.models import User, Comment
+from Backend.models.User import User
+from Backend.models.Comment import Comment
 
 
 class Post(Model):
