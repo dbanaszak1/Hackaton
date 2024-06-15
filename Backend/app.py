@@ -92,7 +92,7 @@ def post_posts():
     comments = []
     status = request.form.get('status')
 
-    creator_ref = db.document(f'user/{creator}')
+    creator_ref = db.document(f'user/{creator}').get()
 
     response = {
         'title': title,
@@ -104,7 +104,8 @@ def post_posts():
         'subcategory': subcategory
     }
 
-    post_ref.add(response)
+    new_post = post_ref.add(response)
+    response['id'] = new_post[1].id
     return jsonify({"success": "Post created", "post": response})
 
 
@@ -140,11 +141,12 @@ def post_test():
 @app.route('/test/edit/<string:id>', methods=['POST'])
 def add_task_to_test(id: str):
     test = test_ref.document(id)
+    current_tasks = test.get().to_dict()['tasks']
     data = request.get_json()
-    tasks = {"question": data['question'], "answers": data["answers"]}
-    print(tasks)
+    task = {"question": data['question'], "answers": data["answers"]}
+    current_tasks.append(task)
     test.update({
-        "tasks": tasks
+        "tasks": current_tasks
     })
 
     return jsonify({'success': f'Document {id} updated successfully'}), 200
