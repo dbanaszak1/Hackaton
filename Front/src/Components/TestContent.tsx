@@ -16,7 +16,7 @@ const TestContent: React.FC<TestContentProps> = ({ category, subcategory, level,
   };
 
   return (
-    <div className="category mb-4 p-4 border border-gray-300 rounded">
+    <div className="category mb-4 p-4 border border-primary rounded-xl ">
       <div className="items-center inline-flex w-full">
         <div className="circle bg-gray-400 rounded-full w-24 h-24 mr-4"></div>
         <div className="w-4/6">
