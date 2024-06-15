@@ -30,8 +30,9 @@ const LoginPage = () => {
         console.error('Błąd:', response.data.error);
     } else {
         console.log('Odpowiedź z serwera:', response);
-        setMessage(response.data);
-        if(response.data === 'Logged in') window.location.replace('/'); //redirect to main page after login
+        setMessage(response.data.success);
+        localStorage.setItem('authToken', response.data.user);
+        if(response.data.success === 'User found') window.location.replace('/home'); //redirect to main page after login
     }
     } catch (error) {
       console.error('Error:', error);

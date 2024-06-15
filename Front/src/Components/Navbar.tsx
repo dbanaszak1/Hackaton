@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import checkUser from '../App'
 
 interface Props {
   user: string | null;
@@ -7,6 +8,7 @@ interface Props {
 
 const Navbar = ({user}: Props) => {
   const[currentState, setCurrentState]=useState(false);
+  const isLoggedIn = checkUser();
   return (
   <>
     <nav className="sticky top-0 z-50 bg-white shadow-custom-blue p-4 inline-flex w-full h-20">
@@ -40,8 +42,8 @@ const Navbar = ({user}: Props) => {
       </li>
     </ul>    
     <div className='w-1/4 items-center place-content-center'>
-    { 
-        user === '' ?
+    {
+        !isLoggedIn ?
         (      
         <div className='inline-flex'>
             <a href='/register'>
@@ -58,7 +60,7 @@ const Navbar = ({user}: Props) => {
           ) :
           ( 
           <div className='text-sm lg:text-lg font-semibold text-gray-600 flex justify-end'>
-              CHUJ
+            {localStorage.getItem('authToken')}
           </div>
           )}     
     </div>
