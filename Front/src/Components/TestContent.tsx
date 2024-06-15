@@ -2,13 +2,14 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 interface TestContentProps {
+  image: string;
   category: string;
   subcategory: string;
   level: string;
   id: string;
 }
 
-const TestContent: React.FC<TestContentProps> = ({ category, subcategory, level, id }) => {
+const TestContent: React.FC<TestContentProps> = ({image, category, subcategory, level, id }) => {
   const navigate = useNavigate();
 
   const handleNavigate = () => {
@@ -18,7 +19,7 @@ const TestContent: React.FC<TestContentProps> = ({ category, subcategory, level,
   return (
     <div className="category mb-4 p-4 border border-primary rounded-xl ">
       <div className="items-center inline-flex w-full">
-        <div className="circle bg-gray-400 rounded-full w-24 h-24 mr-4"></div>
+        <div className="circle bg-gray-400 rounded-full w-24 h-24 mr-4 bg-cover border border-primary" style={{backgroundImage: `url(${image})`}}></div>
         <div className="w-4/6">
           <h2 className="text-xl py-3 font-bold text-primary">
             Test topic: <span className="italic text-3xl" style={{ textTransform: 'capitalize' }}>{category}</span>

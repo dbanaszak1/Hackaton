@@ -11,6 +11,7 @@ interface Answer {
 }
 
 interface Test {
+  image: string;
   id: string;
   category: string;
   subcategory: string;
@@ -103,6 +104,7 @@ const Tests: React.FC = () => {
           <div className="main-content col-span-2 bg-white p-4 shadow-lg shadow-primary">
             {filteredTests.map((test, index) => (
               <TestContent
+                image={test.image}
                 key={index}
                 id={test.id}
                 category={test.category}

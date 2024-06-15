@@ -66,7 +66,8 @@ const SingleTest: React.FC = () => {
 
   return (
     <div className="test-page text-center mx-auto my-10 max-w-[740px]">
-      <div className="border-4 border-secondary rounded-lg p-10 m-10 bg-primary text-white text-lg text-italic text-justify">
+      <div className="text-4xl py-10 text-secondary font-bold">TEST</div>
+      <div className="border mb-10 border-secondary shadow-2xl shadow-secondary rounded-lg p-10  text-primary text-[22px] text-italic text-justify">
         {test.description}
       </div>
       {test.tasks.map((task, index) => (
@@ -74,7 +75,7 @@ const SingleTest: React.FC = () => {
           key={index}
           className="border rounded-3xl border-primary p-4 my-5 mx-auto max-w-[560px]"
         >
-          <h4 className="text-primary m-7 text-3xl text-justify">
+          <h4 className="text-primary m-7 text-lg text-justify">
             {task.question}
           </h4>
           <div className="answers-grid grid grid-cols-2 gap-4 mx-auto">
@@ -99,10 +100,10 @@ const SingleTest: React.FC = () => {
       ))}
       <div className="">
         <button
-          className="border border-primary p-2 mt-4"
+          className="border text-primary font-semibold border-primary p-2 mt-4 rounded-full hover:bg-primary hover:text-white transition hover:scale-110 duration-300"
           onClick={handleSave}
         >
-          ZAPISZ
+          SEND
         </button>
       </div>
     </div>
