@@ -2,7 +2,7 @@ from firebase_admin import credentials, firestore, initialize_app, auth
 from firebase_admin.auth import UserNotFoundError
 from flask import Flask, jsonify, request
 
-from Backend.misc import serialize_document, serialize_document_reference
+from misc import serialize_document, serialize_document_reference
 
 app = Flask(__name__)
 cred = credentials.Certificate('firebase-key.json')

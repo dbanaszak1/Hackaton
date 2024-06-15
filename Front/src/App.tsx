@@ -6,6 +6,8 @@ import Forum from "./Pages/Forum"
 import Planner from "./Pages/Planner"
 import LoginPage from "./Pages/LoginPage"
 import RegisterPage from "./Pages/RegisterPage"
+import SingleTest from "./Pages/SingleTest"
+import SinglePost from "./Pages/SinglePost"
 
 function App() {
   
@@ -19,6 +21,8 @@ function App() {
           <Route path="/planner" Component={Planner} />
           <Route path="/login" Component={LoginPage} />
           <Route path="/register" Component={RegisterPage} />
+          <Route path="/tests/:id" Component={SingleTest} />
+          <Route path="/forum/:id" Component={SinglePost} />
         </Routes>
       </Router>
     </>
