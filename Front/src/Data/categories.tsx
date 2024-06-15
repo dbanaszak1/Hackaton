@@ -1,0 +1,60 @@
+const categories: { [key: string]: string[] } = {
+  Matematyka: [
+    "Algebra",
+    "Geometria",
+    "Analiza matematyczna",
+    "Statystyka",
+    "Trygonometria",
+    "Inne",
+  ],
+  Fizyka: [
+    "Mechanika",
+    "Optyka",
+    "Termodynamika",
+    "Elektromagnetyzm",
+    "Fizyka kwantowa",
+    "Inne",
+  ],
+  Chemia: [
+    "Chemia organiczna",
+    "Chemia nieorganiczna",
+    "Biochemia",
+    "Chemia fizyczna",
+    "Analiza chemiczna",
+    "Inne",
+  ],
+  Biologia: [
+    "Genetyka",
+    "Ekologia",
+    "Anatomia",
+    "Biologia molekularna",
+    "Fizjologia",
+    "Inne",
+  ],
+  Informatyka: [
+    "Programowanie",
+    "Bazy danych",
+    "Sieci komputerowe",
+    "Cyberbezpieczeństwo",
+    "Sztuczna inteligencja",
+    "Inne",
+  ],
+  Historia: [
+    "Historia starożytna",
+    "Średniowiecze",
+    "Nowożytność",
+    "Historia współczesna",
+    "Historia Polski",
+    "Inne",
+  ],
+  Geografia: [
+    "Geografia fizyczna",
+    "Geografia społeczno-ekonomiczna",
+    "Kartografia",
+    "Geologia",
+    "Klimatologia",
+    "Inne",
+  ],
+}
+
+export default categories

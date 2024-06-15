@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import categories from '../Data/categories';
 
 interface AddForumQuestionModalProps {
   isVisible: boolean;
@@ -8,11 +9,6 @@ interface AddForumQuestionModalProps {
 const AddForumQuestionModal: React.FC<AddForumQuestionModalProps> = ({ isVisible, onClose }) => {
   const [category, setCategory] = useState('');
   const [subcategory, setSubcategory] = useState('');
-
-  const categories: { [key: string]: string[] } = {
-    Matematyka: ['Algebra', 'Geometria', 'Analiza matematyczna', 'Statystyka', 'Trygonometria', 'Inne'],
-    Category2: ['Subcategory2-1', 'Subcategory2-2'],
-  };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setCategory(e.target.value);
