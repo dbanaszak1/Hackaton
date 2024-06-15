@@ -78,6 +78,12 @@ def get_posts():
     return jsonify({"success": "Posts found", "posts": posts}), 200
 
 
+@app.route('/post/id/<string:id>', methods=['GET'])
+def get_post_by_id(id: str):
+    post = post_ref.document(id).get()
+    return jsonify({"success": "Post found", "post": serialize_document(post)})
+
+
 @app.route('/post/<int:n>', methods=['GET'])
 def get_n_post(n: int):
     posts = []
