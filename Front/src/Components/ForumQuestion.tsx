@@ -14,7 +14,7 @@ const ForumQuestion = ({title, category, subcategory, description, answerCount }
     return Math.floor(Math.random() * 10);
   };
   return (
-    <div className="broder border-primary p-6 rounded-lg shadow-lg h-56 hover:bg-blue-200 transition duration-300 shadow-blue-200">
+    <div className="broder border-primary p-6 rounded-lg shadow-lg h-56 hover:bg-blue-200 transition duration-300 shadow-blue-300">
       <div className="flex flex-wrap">
         <div className="text-primary font-bold text-xl w-5/6 text-start m-auto">{title}</div>
         <div className="text-secondary font-bold text-lg text-start w-5/6 m-auto">{category}</div>
