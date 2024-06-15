@@ -38,7 +38,7 @@ def get_user_by_uuid(id: str):
 
 @app.route('/user/points/test', methods=['GET'])
 def get_user_leaderboard_by_test_points():
-    users = user_ref.stream()  # Assuming User collection is `user_ref`
+    users = user_ref.stream()
     points = {}
     for user in users:
         user_data = user.to_dict()
@@ -48,7 +48,7 @@ def get_user_leaderboard_by_test_points():
 
 @app.route('/user/points/forum', methods=['GET'])
 def get_user_leaderboard_by_forum_points():
-    users = user_ref.stream()  # Assuming User collection is `user_ref`
+    users = user_ref.stream()
     points = {}
     for user in users:
         user_data = user.to_dict()
@@ -70,10 +70,10 @@ def post_posts():
     title = request.form.get('title')
     content = request.form.get('content')
     category = request.form.get('category')
-    creator = request.form.get('creator')
-    comments = request.form.get('comments')
-    status = request.form.get('status')
     subcategory = request.form.get('subcategory')
+    creator = request.form.get('creator')
+    comments = []
+    status = request.form.get('status')
 
     creator_ref = db.document(f'user/{creator}')
 
@@ -86,6 +86,8 @@ def post_posts():
         'status': status,
         'subcategory': subcategory
     }
+
+    post_ref.add(response)
     return jsonify({"success": "Post created", "post": response})
 
 
@@ -96,6 +98,26 @@ def get_all_tests():
     for test in fetched_tests:
         tests.append(serialize_document(test))
     return jsonify({"success": "Tests found", "tests": tests}), 200
+
+
+@app.route('/test', methods=['POST'])
+def post_test():
+    name = request.form.get('name')
+    category = request.form.get('category')
+    subcategory = request.form.get('subcategory')
+    level = request.form.get('level')
+    tasks = []
+
+    response = {
+        'name': name,
+        'category': category,
+        'subcategory': subcategory,
+        'level': level,
+        'tasks': tasks
+    }
+
+    test_ref.add(response)
+    return jsonify({"success": "Test created", "post": response})
 
 
 @app.route('/test/<string:id>', methods=['GET'])
