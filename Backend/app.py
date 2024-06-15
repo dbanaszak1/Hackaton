@@ -1,67 +1,67 @@
-import fireo
 from firebase_admin import credentials, firestore, initialize_app, auth
 from firebase_admin.auth import UserNotFoundError
 from flask import Flask, jsonify, request
 
-from Backend.models.Test import Test, test_to_dict
-from models.Post import Post, post_to_dict
-from models.User import User, user_to_dict
+from Backend.misc import serialize_document, serialize_document_reference
 
 app = Flask(__name__)
 cred = credentials.Certificate('firebase-key.json')
 default_app = initialize_app(cred)
 db = firestore.client()
-fireo.connection(from_file="./firebase-key.json")
+
+user_ref = db.collection('user')
+post_ref = db.collection('post')
+test_ref = db.collection('test')
 
 
-# user_ref = db.collection('user')
 # test_ref = db.collection('test')
 
 
 @app.route('/auth/email/<string:userMail>', methods=['GET'])
 def get_user_by_mail(userMail: str):
-    with app.app_context():
-        try:
-            user = auth.get_user_by_email(userMail)
-            print(type(user))
-            return jsonify({"success": "User found", "user": user.email})
-        except UserNotFoundError:
-            return jsonify({"error": "User does not exist"}), 404
+    try:
+        user = auth.get_user_by_email(userMail)
+        return jsonify({"success": "User found", "user": user.email})
+    except UserNotFoundError:
+        return jsonify({"error": "User does not exist"}), 404
 
 
 @app.route('/user/<string:id>', methods=['GET'])
 def get_user_by_uuid(id: str):
-    user = User.collection.filter("id", "==", id).get()
-    if user:
-        return jsonify({"success": "User found", "user": user_to_dict(user)})
+    user_doc = user_ref.document(id).get()
+    if user_doc.exists:
+        serialized_user = serialize_document(user_doc)
+        return jsonify({"success": "User found", "user": serialized_user})
     else:
         return jsonify({"error": "User does not exist"}), 404
 
 
 @app.route('/user/points/test', methods=['GET'])
 def get_user_leaderboard_by_test_points():
-    users = User.collection.fetch()
+    users = user_ref.stream()  # Assuming User collection is `user_ref`
     points = {}
     for user in users:
-        points.update({user.id: user.testPoints})
+        user_data = user.to_dict()
+        points[user.id] = user_data.get('testPoints', 0)
     return jsonify({"success": "Users leaderboard found", "leaderboard": points})
 
 
 @app.route('/user/points/forum', methods=['GET'])
 def get_user_leaderboard_by_forum_points():
-    users = User.collection.fetch()
+    users = user_ref.stream()  # Assuming User collection is `user_ref`
     points = {}
     for user in users:
-        points.update({user.id: user.forumPoints})
+        user_data = user.to_dict()
+        points[user.id] = user_data.get('forumPoints', 0)
     return jsonify({"success": "Users leaderboard found", "leaderboard": points})
 
 
 @app.route('/post', methods=['GET'])
 def get_posts():
     posts = []
-    fetched_posts = Post.collection.fetch()
+    fetched_posts = post_ref.stream()
     for post in fetched_posts:
-        posts.append(post_to_dict(post))
+        posts.append(serialize_document(post))
     return jsonify({"success": "Posts found", "posts": posts})
 
 
@@ -74,31 +74,40 @@ def post_posts():
     comments = request.form.get('comments')
     status = request.form.get('status')
     subcategory = request.form.get('subcategory')
+
+    # Assuming creator is a DocumentReference field
+    creator_ref = db.document(creator)  # Assuming creator is a path to a document
+
+    # Example response with the creator as serialized DocumentReference
     response = {
         'title': title,
         'content': content,
         'category': category,
-        'creator': creator,
+        'creator': serialize_document_reference(creator_ref),  # Serialize creator reference
         'comments': comments,
         'status': status,
         'subcategory': subcategory
     }
-    return jsonify({"success": "Posts found", "posts": response})
+    return jsonify({"success": "Post created", "post": response})
 
 
+# Example routes for tests (adjust based on your model)
 @app.route('/test', methods=['GET'])
 def get_all_tests():
     tests = []
-    fetched_tests = Test.collection.fetch()
+    fetched_tests = test_ref.stream()  # Assuming Test collection is `test_ref`
     for test in fetched_tests:
-        tests.append(test_to_dict(test))
+        tests.append(serialize_document(test))
     return jsonify({"success": "Tests found", "tests": tests})
 
 
 @app.route('/test/<string:id>', methods=['GET'])
 def get_test_by_id(id: str):
-    test = Test.collection.filter("id", "==", id).get()
-    return jsonify({"success": "Posts found", "posts": test_to_dict(test)})
+    test_doc = test_ref.document(id).get()  # Assuming Test collection is `test_ref`
+    if test_doc.exists:
+        return jsonify({"success": "Test found", "test": serialize_document(test_doc)})
+    else:
+        return jsonify({"error": "Test does not exist"}), 404
 
 
 if __name__ == '__main__':
