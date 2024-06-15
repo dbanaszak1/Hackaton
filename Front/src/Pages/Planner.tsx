@@ -4,7 +4,7 @@ import Navbar from '../Components/Navbar'
 const Planner = () => {
   return (
     <>
-      <Navbar />
+      <Navbar user=""/>
       <div>Planner</div>    
     </>
 

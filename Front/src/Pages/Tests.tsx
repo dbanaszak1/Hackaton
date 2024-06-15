@@ -1,11 +1,12 @@
 import React from 'react';
 import Navbar from '../Components/Navbar';
 import TestContent from '../Components/TestContent'; // Adjust the import path as needed
+import Footer from '../Components/Footer';
 
 const Tests = () => {
   return (
     <>
-      <Navbar />
+      <Navbar user=""/>
       <div className="container mx-auto p-4">
         <div className="search-bar mb-4">
           <input type="text" className="w-full p-2 border border-gray-300 rounded" placeholder="Search" />
@@ -43,6 +44,7 @@ const Tests = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };
