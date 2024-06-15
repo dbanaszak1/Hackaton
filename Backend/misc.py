@@ -2,7 +2,6 @@ from google.cloud.firestore_v1 import DocumentReference
 
 
 def serialize_document_reference(ref):
-
     if isinstance(ref, DocumentReference):
         ref_doc = ref.get()
         if ref_doc.exists:
@@ -18,6 +17,9 @@ def serialize_document(doc):
         if isinstance(value, DocumentReference):
             doc_dict[key] = serialize_document_reference(value)
         elif isinstance(value, list):
-            doc_dict[key] = [serialize_document_reference(item) if isinstance(item, DocumentReference) else item for
-                             item in value]
+            doc_dict[key] = [
+                serialize_document_reference(item) if isinstance(item, DocumentReference) else item
+                for item in value
+            ]
+    doc_dict['id'] = doc.id
     return doc_dict
