@@ -65,6 +65,17 @@ def get_posts():
     return jsonify({"success": "Posts found", "posts": posts}), 200
 
 
+@app.route('/post/<int:n>')
+def get_n_post(n: int):
+    posts = []
+    fetched_posts = post_ref.stream()
+    for post in fetched_posts:
+        posts.append(serialize_document(post))
+    if len(posts) > n:
+        return jsonify({"error": "Post not found"}), 404
+    return jsonify({"success": "Posts found", "posts": posts[n]}), 200
+
+
 @app.route('/post', methods=['POST'])
 def post_posts():
     title = request.form.get('title')
