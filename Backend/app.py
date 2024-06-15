@@ -131,6 +131,19 @@ def post_test():
     return jsonify({"success": "Test created", "post": response})
 
 
+@app.route('/test/edit/<string:id>', methods=['POST'])
+def add_task_to_test(id: str):
+    test = test_ref.document(id)
+    data = request.get_json()
+    tasks = {"question": data['question'], "answers": data["answers"]}
+    print(tasks)
+    test.update({
+        "tasks": tasks
+    })
+
+    return jsonify({'success': f'Document {id} updated successfully'}), 200
+
+
 @app.route('/test/<string:id>', methods=['GET'])
 def get_test_by_id(id: str):
     test_doc = test_ref.document(id).get()
