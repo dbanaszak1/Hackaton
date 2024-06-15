@@ -20,8 +20,9 @@ const Home = () => {
       description: "Plan your learning journey with the help of our AI-powered planner. Set your goals, track your progress, and receive personalized recommendations on what to learn next. The planner will help you stay motivated and focused on your learning objectives."
     }
   ];
+  const bgurl = "https://minimumviablelegals.com.au/wp-content/uploads/2019/11/ITLB_B_BG-2.png"
   return (
-    <div className=''>
+    <div style={{backgroundImage: `url(${bgurl})`}} className='bg-cover'>
       <Navbar user=""/>
       <div className='pt-10 w-[1240px] flex flex-wrap items-center m-auto'>
         <img className="m-auto h-60 w-72" src="src/Assets/Images/logo.png" alt="logo" />
