@@ -1,6 +1,7 @@
 import React from "react";
 
 interface ForumQuestionProps {
+  title: string;
   category: string;
   subcategory: string;
   question: string;
@@ -8,10 +9,11 @@ interface ForumQuestionProps {
   answerCount: number;
 }
 
-const ForumQuestion: React.FC<ForumQuestionProps> = ({ category, subcategory, question, description, answerCount }) => {
+const ForumQuestion: React.FC<ForumQuestionProps> = ({title, category, subcategory, question, description, answerCount }) => {
   return (
     <div className="bg-gray-100 p-4 rounded-lg shadow-md grid grid-cols-4 grid-rows-3 gap-4 h-80">
       <div className="col-span-1 row-span-1 flex flex-col space-y-2">
+        <div className="font-bold">{title}</div>
         <div className="font-bold">{category}</div>
         <div className="font-normal">{subcategory}</div>
       </div>

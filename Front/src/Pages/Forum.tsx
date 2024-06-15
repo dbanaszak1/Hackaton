@@ -1,22 +1,47 @@
-import React, { useState } from "react"
-import Navbar from "../Components/Navbar"
-import ForumQuestion from "../Components/ForumQuestion"
-import AddForumQuestionModal from "../Components/AddForumQuestionModal" // Ensure this path is correct
-import Footer from "../Components/Footer"
+import React, { useState, useEffect } from "react";
+import Navbar from "../Components/Navbar";
+import ForumQuestion from "../Components/ForumQuestion";
+import AddForumQuestionModal from "../Components/AddForumQuestionModal";
+import Footer from "../Components/Footer";
+import axios from "axios";
+
+interface Post {
+  category: string;
+  id: string;
+  content: string;
+  status: string;
+  subcategory: string;
+  title: string;
+  comments: Comment[];
+}
 
 const Forum = () => {
-  const [isModalVisible, setIsModalVisible] = useState(false)
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [posts, setPosts] = useState<Post[]>([]);
+  
+  useEffect(() => {
+    axios.get("http://localhost:5000/post")
+      .then(response => {
+        setPosts(response.data.posts);
+      })
+      .catch(error => {
+        console.error("Error fetching posts:", error);
+      });
+  }, []);
 
-  const openModal = () => setIsModalVisible(true)
-  const closeModal = () => setIsModalVisible(false)
-  const svgplus = <svg className="mr-3" width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-                    <path d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-                    </svg>
+  const openModal = () => setIsModalVisible(true);
+  const closeModal = () => setIsModalVisible(false);
+
+  const svgplus = (
+    <svg className="mr-3" width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M15 12L12 12M12 12L9 12M12 12L12 9M12 12L12 15" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round" />
+      <path d="M7 3.33782C8.47087 2.48697 10.1786 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 10.1786 2.48697 8.47087 3.33782 7" stroke="#1C274C" strokeWidth="1.5" strokeLinecap="round" />
+    </svg>
+  );
 
   return (
     <>
-      <Navbar user=""/>
+      <Navbar user="" />
       <div className="container mx-auto p-4 max-w-[1240px] mt-10">
         <div className="text-2xl text-center flex flex-col items-center">
           <div className="w-full flex justify-center items-center mb-4">
@@ -31,7 +56,8 @@ const Forum = () => {
                 className="add-question px-4 py-2 bg-primary text-white rounded-lg inline-flex items-center cursor-pointer
                 hover:bg-secondary  ease-in-out hover:scale-110 duration-500"
                 onClick={openModal}
-              >{svgplus}
+              >
+                {svgplus}
                 Add Question
               </div>
             </div>
@@ -53,20 +79,16 @@ const Forum = () => {
               </div>
             </div>
             <div className="w-3/4 flex flex-col space-y-4">
-              <ForumQuestion
-                category="Programming"
-                subcategory="JavaScript"
-                question="How do I use React Hooks?"
-                description="I am trying to use React Hooks in my project but facing issues with state management..."
-                answerCount={5}
-              />
-              <ForumQuestion
-                category="Programming"
-                subcategory="TypeScript"
-                question="How do I use TypeScript with React?"
-                description="I am trying to use TypeScript with React but facing issues with type definitions..."
-                answerCount={3}
-              />
+              {posts.map((post, index) => (
+                <ForumQuestion
+                  key={index}
+                  category={post.category}
+                  subcategory={post.subCategory}
+                  question={post.title}
+                  description={post.content}
+                  answerCount={post.comments.length}
+                />
+              ))}
             </div>
             <div className="w-1/4 bg-gray-100 p-4 rounded-lg shadow-md">
               <h2>REKLAMY</h2>
@@ -77,7 +99,7 @@ const Forum = () => {
       <AddForumQuestionModal isVisible={isModalVisible} onClose={closeModal} />
       <Footer />
     </>
-  )
-}
+  );
+};
 
-export default Forum
+export default Forum;
