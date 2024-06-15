@@ -25,7 +25,7 @@ const LoginPage = () => {
         password,
       }
     try {
-      const response = await axios.post('http://localhost:3000/auth/login',data, { withCredentials: true } );
+      const response = await axios.post('http://localhost:5000/auth/login',data, { withCredentials: true } );
       if (response.data.error) {
         console.error('Błąd:', response.data.error);
     } else {

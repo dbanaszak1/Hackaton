@@ -1,10 +1,12 @@
 from firebase_admin import credentials, firestore, initialize_app, auth
 from firebase_admin.auth import UserNotFoundError
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 
 from misc import serialize_document, serialize_document_reference
 
 app = Flask(__name__)
+CORS(app, origins="http://localhost:5173")
 cred = credentials.Certificate('firebase-key.json')
 default_app = initialize_app(cred)
 db = firestore.client()
@@ -17,13 +19,24 @@ test_ref = db.collection('test')
 # test_ref = db.collection('test')
 
 
-@app.route('/auth/email/<string:userMail>', methods=['GET'])
-def get_user_by_mail(userMail: str):
+@app.route('/auth/login', methods=['POST'])
+def get_user_by_mail():
     try:
-        user = auth.get_user_by_email(userMail)
+        mail = request.json['email']
+        user = auth.get_user_by_email(mail)
         return jsonify({"success": "User found", "user": user.email}), 200
     except UserNotFoundError:
         return jsonify({"error": "User does not exist"}), 404
+
+
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:5173')  # Zmień na swoją lokalną aplikację frontendową
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')  # Włączenie obsługi ciasteczek
+
+    return response
 
 
 @app.route('/user/<string:id>', methods=['GET'])
