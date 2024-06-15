@@ -21,7 +21,7 @@ test_ref = db.collection('test')
 def get_user_by_mail(userMail: str):
     try:
         user = auth.get_user_by_email(userMail)
-        return jsonify({"success": "User found", "user": user.email})
+        return jsonify({"success": "User found", "user": user.email}), 200
     except UserNotFoundError:
         return jsonify({"error": "User does not exist"}), 404
 
@@ -31,7 +31,7 @@ def get_user_by_uuid(id: str):
     user_doc = user_ref.document(id).get()
     if user_doc.exists:
         serialized_user = serialize_document(user_doc)
-        return jsonify({"success": "User found", "user": serialized_user})
+        return jsonify({"success": "User found", "user": serialized_user}), 200
     else:
         return jsonify({"error": "User does not exist"}), 404
 
@@ -43,7 +43,7 @@ def get_user_leaderboard_by_test_points():
     for user in users:
         user_data = user.to_dict()
         points[user.id] = user_data.get('testPoints', 0)
-    return jsonify({"success": "Users leaderboard found", "leaderboard": points})
+    return jsonify({"success": "Users leaderboard found", "leaderboard": points}), 200
 
 
 @app.route('/user/points/forum', methods=['GET'])
@@ -53,7 +53,7 @@ def get_user_leaderboard_by_forum_points():
     for user in users:
         user_data = user.to_dict()
         points[user.id] = user_data.get('forumPoints', 0)
-    return jsonify({"success": "Users leaderboard found", "leaderboard": points})
+    return jsonify({"success": "Users leaderboard found", "leaderboard": points}), 200
 
 
 @app.route('/post', methods=['GET'])
@@ -62,7 +62,7 @@ def get_posts():
     fetched_posts = post_ref.stream()
     for post in fetched_posts:
         posts.append(serialize_document(post))
-    return jsonify({"success": "Posts found", "posts": posts})
+    return jsonify({"success": "Posts found", "posts": posts}), 200
 
 
 @app.route('/post', methods=['POST'])
@@ -75,15 +75,13 @@ def post_posts():
     status = request.form.get('status')
     subcategory = request.form.get('subcategory')
 
-    # Assuming creator is a DocumentReference field
-    creator_ref = db.document(creator)  # Assuming creator is a path to a document
+    creator_ref = db.document(f'user/{creator}')
 
-    # Example response with the creator as serialized DocumentReference
     response = {
         'title': title,
         'content': content,
         'category': category,
-        'creator': serialize_document_reference(creator_ref),  # Serialize creator reference
+        'creator': serialize_document_reference(creator_ref),
         'comments': comments,
         'status': status,
         'subcategory': subcategory
@@ -91,23 +89,40 @@ def post_posts():
     return jsonify({"success": "Post created", "post": response})
 
 
-# Example routes for tests (adjust based on your model)
 @app.route('/test', methods=['GET'])
 def get_all_tests():
     tests = []
-    fetched_tests = test_ref.stream()  # Assuming Test collection is `test_ref`
+    fetched_tests = test_ref.stream()
     for test in fetched_tests:
         tests.append(serialize_document(test))
-    return jsonify({"success": "Tests found", "tests": tests})
+    return jsonify({"success": "Tests found", "tests": tests}), 200
 
 
 @app.route('/test/<string:id>', methods=['GET'])
 def get_test_by_id(id: str):
-    test_doc = test_ref.document(id).get()  # Assuming Test collection is `test_ref`
+    test_doc = test_ref.document(id).get()
     if test_doc.exists:
-        return jsonify({"success": "Test found", "test": serialize_document(test_doc)})
+        return jsonify({"success": "Test found", "test": serialize_document(test_doc)}), 200
     else:
         return jsonify({"error": "Test does not exist"}), 404
+
+
+@app.route('/forum', methods=['GET'])
+def get_forum_posts():
+    forum_posts = []
+    fetched_forum_posts = post_ref.stream()
+    for forum_post in fetched_forum_posts:
+        forum_posts.append(serialize_document_reference(forum_post))
+    return jsonify({"success": "Forum posts found", "posts": forum_posts}), 200
+
+
+@app.route('/forum/<string:id>', methods=['GET'])
+def get_forum_post_by_id(id: str):
+    forum_post = post_ref.document(id).get()
+    if forum_post.exists:
+        return jsonify({"success": "Post found", "post": serialize_document(forum_post)}), 200
+    else:
+        return jsonify({"error": "Post does not exist"}), 404
 
 
 if __name__ == '__main__':
