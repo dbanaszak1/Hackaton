@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from '../Components/Navbar'
+import Footer from '../Components/Footer';
 
 const Home = () => {
   const offers = [
@@ -20,8 +21,8 @@ const Home = () => {
     }
   ];
   return (
-    <div className='pb-20'>
-      <Navbar />
+    <div className=''>
+      <Navbar user=""/>
       <div className='pt-10 w-[1240px] flex flex-wrap items-center m-auto'>
         <img className="m-auto h-60 w-72" src="src/Assets/Images/logo.png" alt="logo" />
         <div className='w-full text-center text-3xl text-primary pt-8'>Welcome to KnowledgeHub!</div>
@@ -47,7 +48,7 @@ const Home = () => {
           </div>
         ))
       }
- 
+    <Footer />
     </div>
   )
 }
