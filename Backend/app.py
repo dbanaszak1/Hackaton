@@ -95,6 +95,39 @@ def get_n_post(n: int):
     return jsonify({"success": "Posts found", "posts": posts[n]}), 200
 
 
+@app.route('/post/<string:id>/comments', methods=["GET"])
+def get_post_comments(id: str):
+    post = post_ref.document(id)
+    current_comments = post.get().to_dict()['comments']
+    return jsonify({
+        "success": "All comments", "comments": current_comments
+    })
+
+
+@app.route('/post/<string:id>/add_comment', methods=["POST"])
+def add_comment(id: str):
+    post = post_ref.document(id)
+    current_comments = post.get().to_dict()['comments']
+
+    content = request.form.get('content')
+    creator = request.form.get('creator')
+
+    creator_ref = db.document(f'user/{creator}').get()
+
+    comment = {
+        'comment': content,
+        'creator': serialize_document(creator_ref)
+    }
+
+    current_comments.append(comment)
+
+    post.update({
+        "comments": current_comments
+    })
+
+    return jsonify({"success": "Comment added", "comment": comment})
+
+
 @app.route('/post', methods=['POST'])
 def post_posts():
     title = request.form.get('title')
