@@ -9,3 +9,6 @@ class Test(Model):
     _level: models.TextField()
     _tasks: models.ListField()
     _creationDate: models.DateTime()
+
+    class Meta:
+        collection_name = 'test'

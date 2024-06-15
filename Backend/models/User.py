@@ -9,3 +9,6 @@ class User(Model):
     _forumPoints: models.NumberField() = 0
     _testsPoints: models.NumberField() = 0
     _isPremium: models.BooleanField() = False
+
+    class Meta:
+        collection_name = 'user'

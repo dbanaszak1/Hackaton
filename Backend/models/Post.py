@@ -12,3 +12,6 @@ class Post(Model):
     _status: models.TextField()
     _subcategory: models.TextField()
     _creationDate: models.DateTime()
+
+    class Meta:
+        collection_name = 'post'
