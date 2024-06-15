@@ -6,7 +6,7 @@ interface CommentProps {
 }
 
 interface CreatorProps {
-    completedTests: [],
+    completedTests: any[],
     forumPoints: number,
     id: string,
     isPremium: boolean,
