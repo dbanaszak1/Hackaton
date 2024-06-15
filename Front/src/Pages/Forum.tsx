@@ -18,11 +18,14 @@ interface Post {
 const Forum = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  
   
   useEffect(() => {
     axios.get("http://localhost:5000/post")
       .then(response => {
         setPosts(response.data.posts);
+        console.log(response.data.posts);
       })
       .catch(error => {
         console.error("Error fetching posts:", error);
@@ -51,6 +54,7 @@ const Forum = () => {
                 type="search"
                 name="search"
                 placeholder="Search..."
+                onChange={(e) => setSearchTerm(e.target.value)}
               />
               <div
                 className="add-question px-4 py-2 bg-primary text-white rounded-lg inline-flex items-center cursor-pointer
@@ -79,12 +83,16 @@ const Forum = () => {
               </div>
             </div>
             <div className="w-3/4 flex flex-col space-y-4">
-              {posts.map((post, index) => (
+              {posts
+              .filter((post) =>
+                post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                post.category.toLowerCase().includes(searchTerm.toLowerCase()))
+              .map((post, index) => (
                 <ForumQuestion
                   key={index}
+                  title={post.title}
                   category={post.category}
-                  subcategory={post.subCategory}
-                  question={post.title}
+                  subcategory={post.subcategory}
                   description={post.content}
                   answerCount={post.comments.length}
                 />
