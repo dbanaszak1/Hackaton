@@ -10,7 +10,6 @@ import SingleTest from "./Pages/SingleTest"
 import SinglePost from "./Pages/SinglePost"
 
 function App() {
-  
   return (
     <>
       <Router>
@@ -27,6 +26,16 @@ function App() {
       </Router>
     </>
   )
+}
+
+const checkUser = () => {
+  const token = localStorage.getItem('authToken');
+
+  if (token) {
+    return true;
+  } else {
+    return false;
+  }
 }
 
 export default App
