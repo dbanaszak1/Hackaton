@@ -166,15 +166,19 @@ def get_all_tests():
 
 @app.route('/test', methods=['POST'])
 def post_test():
-    name = request.form.get('name')
-    category = request.form.get('category')
-    subcategory = request.form.get('subcategory')
-    level = request.form.get('level')
-    tasks = []
+    name = request.json['name']
+    category = request.json['category']
+    description = request.json['description']
+    subcategory = request.json['subcategory']
+    image = request.json['image']
+    level = request.json['level']
+    tasks = request.json['tasks']
 
     response = {
         'name': name,
         'category': category,
+        'description': description,
+        'image': image,
         'subcategory': subcategory,
         'level': level,
         'tasks': tasks
