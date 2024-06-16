@@ -168,9 +168,11 @@ def get_all_tests():
 def post_test():
     name = request.form.get('name')
     category = request.form.get('category')
+    description: request.form.get('description')
     subcategory = request.form.get('subcategory')
+    image: request.form.get('image')
     level = request.form.get('level')
-    tasks = []
+    tasks = request.form.get('tasks')
 
     response = {
         'name': name,
