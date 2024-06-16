@@ -60,9 +60,10 @@ const SinglePost = () => {
 
     return (
         <>
-            <Navbar user="" />
-            <div className="container mx-auto p-4 max-w-[1240px] mt-40">
-                <div className="bg-white p-6 rounded-lg shadow-md">
+            <Navbar/>
+            <div className="container mx-auto p-4 max-w-[1240px] mt-10">
+                <div className='text-4xl text-primary w-full text-center text-bold pb-10'>FORUM</div>
+                <div className="bg-white p-6 rounded-lg shadow-md shadow-primary">
                     <h1 className="text-3xl font-bold mb-4">{post.title}</h1>
                     <p className="text-gray-700 mb-4">{post.content}</p>
                     <div className="flex items-center justify-between">
@@ -72,6 +73,7 @@ const SinglePost = () => {
                             <p className="text-gray-600">Status: {post.status}</p>
                         </div>
                     </div>
+                    <div className='border-t border-primary text-3xl pt-4 mt-12'>Comments:</div>
                     {comments.map((comment, index) => (
                         <Comment
                             key={index}

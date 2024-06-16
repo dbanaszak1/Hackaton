@@ -23,7 +23,7 @@ const Home = () => {
   const bgurl = "https://minimumviablelegals.com.au/wp-content/uploads/2019/11/ITLB_B_BG-2.png"
   return (
     <div style={{backgroundImage: `url(${bgurl})`}} className='bg-cover'>
-      <Navbar user=""/>
+      <Navbar/>
       <div className='pt-10 w-[1240px] flex flex-wrap items-center m-auto'>
         <img className="m-auto h-60 w-72" src="src/Assets/Images/logo.png" alt="logo" />
         <div className='w-full text-center text-3xl text-primary pt-8'>Welcome to KnowledgeHub!</div>

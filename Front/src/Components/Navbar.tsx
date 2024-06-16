@@ -1,13 +1,19 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
-import checkUser from '../App'
 
-interface Props {
-  user: string | null;
-}
 
-const Navbar = ({user}: Props) => {
+const Navbar = () => {
   const[currentState, setCurrentState]=useState(false);
+
+  const checkUser = () => {
+    const token = localStorage.getItem('authToken');
+  
+    if (token) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   const isLoggedIn = checkUser();
   return (
   <>
@@ -43,7 +49,7 @@ const Navbar = ({user}: Props) => {
     </ul>    
     <div className='w-1/4 items-center place-content-center'>
     {
-        !isLoggedIn ?
+        isLoggedIn == false ?
         (      
         <div className='inline-flex'>
             <a href='/register'>
@@ -59,8 +65,9 @@ const Navbar = ({user}: Props) => {
           </div> 
           ) :
           ( 
-          <div className='text-sm lg:text-lg font-semibold text-gray-600 flex justify-end'>
-            {localStorage.getItem('authToken')}
+          <div className='text-sm lg:text-lg font-semibold text-gray-600 flex justify-end items-center'>
+            <img src="src/Assets/Images/useer.png" className='w-12 h-12 mx-4 rounded-full'></img>
+            {localStorage.getItem('authToken')}            
           </div>
           )}     
     </div>

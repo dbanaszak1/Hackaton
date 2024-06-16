@@ -62,7 +62,7 @@ useEffect(() => {
 return (
   <>
   <div className="pb-10">
-    <Navbar user=""/>
+    <Navbar/>
   </div>
   <div className="max-w-md mx-auto bg-white p-8 rounded-md shadow-2xl shadow-blue-400 mt-10">
     <h2 className="text-2xl font-semibold mb-4">Sign up</h2>

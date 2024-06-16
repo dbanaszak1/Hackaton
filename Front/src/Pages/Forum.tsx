@@ -97,7 +97,7 @@ const Forum = () => {
                 post.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 post.subcategory.toLowerCase().includes(searchTerm.toLowerCase()))
               .map((post, index) => (
-                <Link key={index} to={`/forum/${index +1}`}>
+                <Link key={index} to={`/forum/${post.id}`}>
                   <ForumQuestion
                     
                     title={post.title}

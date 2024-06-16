@@ -3,6 +3,7 @@ import axios from "axios";
 import Navbar from "../Components/Navbar";
 import TestContent from "../Components/TestContent"; // Adjust the import path as needed
 import Footer from "../Components/Footer";
+import { Link } from "react-router-dom";
 
 interface Answer {
   id: string;
@@ -64,9 +65,17 @@ const Tests: React.FC = () => {
     setFilteredTests(filtered);
   };
 
+  const leaderboardData = [
+    { name: 'Alice', score: 250 },
+    { name: 'Bob', score: 200 },
+    { name: 'Charlie', score: 150 },
+    { name: 'David', score: 100 },
+    { name: 'Eva', score: 50 },
+  ];
+
   return (
     <>
-      <Navbar user="" />
+      <Navbar/>
       <div className="container mx-auto mt-10 p-4 w-[1240px]">
         <div className="search-bar mb-4 w-1/2 mx-auto">
           <input
@@ -99,6 +108,27 @@ const Tests: React.FC = () => {
                   </li>
                 ))}
               </ol>
+            </div>
+            <div className="justify-center flex-wrap">
+              <table className="border p-4 shadow-xl w-full rounded-2xl my-6 text-center">
+                <thead>
+                  <tr>
+                    <th>Rank</th>
+                    <th>Name</th>
+                    <th>Score</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {leaderboardData.map((player, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{player.name}</td>
+                      <td>{player.score}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              <Link className="m-auto" to='./leaders'><div className="m-auto text-center w-32 border rounded-xl text-primary hover:bg-primary hover:text-white hover:scale-125 duration-300">Leaderboard</div></Link>
             </div>
           </div>
           <div className="main-content col-span-2 bg-white p-4 shadow-lg shadow-primary">

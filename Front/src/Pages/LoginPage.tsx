@@ -42,7 +42,7 @@ const LoginPage = () => {
   return (
    <>
    <div className="pb-10">
-     <NavBar user=''/>
+     <NavBar/>
    </div>
      <div className="max-w-md mx-auto bg-white p-8 rounded-md shadow-2xl mt-10 shadow-blue-400">
      <h2 className="text-2xl font-semibold mb-4">Log In</h2>

@@ -8,6 +8,7 @@ import LoginPage from "./Pages/LoginPage"
 import RegisterPage from "./Pages/RegisterPage"
 import SingleTest from "./Pages/SingleTest"
 import SinglePost from "./Pages/SinglePost"
+import Leaders from "./Pages/Leaders"
 
 function App() {
   return (
@@ -22,20 +23,11 @@ function App() {
           <Route path="/register" Component={RegisterPage} />
           <Route path="/tests/:id" Component={SingleTest} />
           <Route path="/forum/:id" Component={SinglePost} />
+          <Route path="/tests/leaders" Component={Leaders} />
         </Routes>
       </Router>
     </>
   )
-}
-
-const checkUser = () => {
-  const token = localStorage.getItem('authToken');
-
-  if (token) {
-    return true;
-  } else {
-    return false;
-  }
 }
 
 export default App
