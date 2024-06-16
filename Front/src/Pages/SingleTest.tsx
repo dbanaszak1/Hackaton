@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
 
 interface Task {
@@ -27,6 +27,9 @@ const SingleTest: React.FC = () => {
   const [test, setTest] = useState<Test | null>(null)
   const [userAnswers, setUserAnswers] = useState<string[]>([])
   const [correctAnswers, setCorrectAnswers] = useState<string[]>([])
+  const [showModal, setShowModal] = useState(false)
+  const [score, setScore] = useState(0)
+  const navigate = useNavigate()
 
   useEffect(() => {
     axios
@@ -57,7 +60,13 @@ const SingleTest: React.FC = () => {
     const score = userAnswers.filter(
       (answer, index) => answer === correctAnswers[index]
     ).length
-    alert(`You got ${score} out of ${correctAnswers.length} correct!`)
+    setScore(score)
+    setShowModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setShowModal(false)
+    navigate("/home")
   }
 
   if (!test) {
@@ -106,6 +115,22 @@ const SingleTest: React.FC = () => {
           SEND
         </button>
       </div>
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center bg-gray-600 bg-opacity-50">
+          <div className="bg-white rounded-lg p-8 shadow-lg">
+            <h2 className="text-2xl font-bold mb-4">Test Result</h2>
+            <p className="mb-4">
+              You got {score} out of {correctAnswers.length} correct!
+            </p>
+            <button
+              className="bg-blue-500 text-white p-2 rounded hover:bg-blue-700"
+              onClick={handleCloseModal}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

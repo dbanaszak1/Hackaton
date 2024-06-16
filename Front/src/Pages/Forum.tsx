@@ -50,7 +50,7 @@ const Forum = () => {
 
   return (
     <>
-      <Navbar user="" />
+      <Navbar/>
       <div className="container mx-auto p-4 max-w-[1240px] mt-10">
         <div className="text-2xl text-center flex flex-col items-center">
           <div className="w-full flex justify-center items-center mb-4">
